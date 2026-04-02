@@ -1,0 +1,214 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: seQura\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-26 15:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.0; wp-6.8.1; php-8.2.28\n"
+"X-Domain: sequra"
+
+#. Author of the plugin
+msgid "\"seQura Tech\" <wordpress@sequra.com>"
+msgstr ""
+
+#. %1$s: <p>, %2$s: </p>, %3$s: <b>, %4$s: </b>.
+#: src/Services/Payment/class-sequra-payment-gateway.php:378
+#, php-format
+msgid ""
+"%1$sseQura is processing your request.%2$s%1$sAfter a few minutes %3$syou "
+"will get an email with your request result%4$s. seQura might contact you to "
+"get some more information.%2$s%1$s%3$sThanks for choosing seQura!%4$s%2$s"
+msgstr ""
+
+#: templates/front/payment_fields.php:40
+msgid "+info"
+msgstr ""
+
+#: tests/Controllers/Hooks/Order/OrderControllerTest.php:92
+#: src/Controllers/Hooks/Order/class-order-controller.php:102
+msgid "An error occurred while updating the order data in seQura."
+msgstr ""
+
+#: src/Controllers/Hooks/Settings/class-settings-controller.php:157
+msgid "API docs"
+msgstr ""
+
+#: src/Repositories/class-repository.php:504
+msgid "Column is not id or index."
+msgstr ""
+
+#: templates/admin/product_metabox.php:69
+msgid "Date i.e: 2021-01-01 or period i.e: P1M for 1 month"
+msgstr ""
+
+#: templates/admin/product_metabox.php:62
+msgid "Date i.e: 2021-06-06 or period i.e: P1Y for 1 year"
+msgstr ""
+
+#: templates/admin/product_metabox.php:68
+msgid "date or period in ISO8601 format"
+msgstr ""
+
+#: src/Services/Cart/class-cart-service.php:460
+#: src/Services/Cart/class-cart-service.php:481
+#: src/Services/Cart/class-cart-service.php:523
+msgid "Discount"
+msgstr ""
+
+#: templates/admin/product_metabox.php:45
+msgid "Do not offer seQura for this product"
+msgstr ""
+
+#: src/Services/Payment/class-sequra-payment-gateway.php:370
+msgid "Error has occurred, please try again."
+msgstr ""
+
+#: templates/admin/product_metabox.php:67
+msgid "First instalment delay or date"
+msgstr ""
+
+#: src/Services/Payment/class-sequra-payment-gateway.php:145
+msgid "Flexible payment with seQura"
+msgstr ""
+
+#: src/Services/Cart/class-cart-service.php:401
+#: src/Services/Cart/class-cart-service.php:426
+msgid "Handling cost"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://sequra.com/"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://sequra.es/"
+msgstr ""
+
+#: templates/front/payment_fields.php:39
+msgid "More information"
+msgstr ""
+
+#: src/Core/Implementation/BusinessLogic/Webhook/Services/class-shop-order-service.php:263
+msgid "Order cancelled by seQura."
+msgstr ""
+
+#: src/Services/Payment/class-sequra-payment-gateway.php:534
+#: src/Services/Payment/class-sequra-payment-gateway.php:566
+msgid "Order not found"
+msgstr ""
+
+#. %1$d: WooCommerce Order ID.
+#: src/Core/Implementation/BusinessLogic/Webhook/Services/class-shop-order-service.php:164
+#, php-format
+msgid "Order ref sent to seQura: %1$d"
+msgstr ""
+
+#: templates/admin/product_metabox.php:77
+msgid "Part of the price that will be paid as registration fee"
+msgstr ""
+
+#: src/Core/Implementation/BusinessLogic/Webhook/Services/class-shop-order-service.php:168
+msgid "Payment accepted by seQura"
+msgstr ""
+
+#: src/Core/Implementation/BusinessLogic/Webhook/Services/class-shop-order-service.php:173
+msgid "Payment is in review by seQura"
+msgstr ""
+
+#. %1$s: <strong>, %2$s: </strong>.
+#: src/Services/Payment/class-sequra-payment-gateway.php:266
+#, php-format
+msgid "Please select a valid %1$sseQura payment method%2$s"
+msgstr ""
+
+#: src/Services/Payment/class-sequra-payment-gateway.php:146
+msgid "Please, select the payment method you want to use"
+msgstr ""
+
+#: src/Services/Payment/class-sequra-payment-gateway.php:570
+msgid "Refund amount must be greater than 0"
+msgstr ""
+
+#. %s is the error message.
+#: src/Services/Payment/class-sequra-payment-gateway.php:580
+#, php-format
+msgid "Refund failed in seQura: %s"
+msgstr ""
+
+#: templates/admin/product_metabox.php:75
+msgid "Registration amount"
+msgstr ""
+
+#. Name of the plugin
+#: src/Services/Payment/class-sequra-payment-gateway.php:124
+#: src/Controllers/Hooks/Settings/class-settings-controller.php:55
+#: src/Controllers/Hooks/Settings/class-settings-controller.php:56
+msgid "seQura"
+msgstr ""
+
+#. Description of the plugin
+msgid "seQura payment gateway for WooCommerce"
+msgstr ""
+
+#: src/Services/Payment/class-sequra-payment-gateway.php:127
+msgid "seQura payment method's configuration."
+msgstr ""
+
+#: src/Controllers/Hooks/Product/class-product-controller.php:405
+msgid "seQura settings"
+msgstr ""
+
+#: templates/admin/product_metabox.php:60
+msgid "Service end date"
+msgstr ""
+
+#: src/Controllers/Hooks/Settings/class-settings-controller.php:101
+msgid "Settings"
+msgstr ""
+
+#: src/Services/Cart/class-cart-service.php:435
+msgid "Shipping cost"
+msgstr ""
+
+#: src/Services/Payment/class-sequra-payment-gateway.php:541
+msgid "Sorry, something went wrong. Please contact the merchant."
+msgstr ""
+
+#: src/Controllers/Hooks/Settings/class-settings-controller.php:169
+#: src/Controllers/Hooks/Settings/class-settings-controller.php:170
+msgid "Support"
+msgstr ""
+
+#: templates/front/receipt_page.php:17
+msgid ""
+"Thank you for your order. Please fill the required data to pay with seQura..."
+msgstr ""
+
+#: templates/admin/product_metabox.php:54
+msgid "This is not a service"
+msgstr ""
+
+#: src/Services/Payment/class-sequra-payment-gateway.php:134
+msgid "View more configuration options."
+msgstr ""
+
+#: templates/admin/order_details.php:16
+msgid "View on seQura"
+msgstr ""
+
+#: src/Controllers/Hooks/Settings/class-settings-controller.php:156
+msgid "View WooCommerce API docs"
+msgstr ""
+
+#: src/Controllers/Hooks/Settings/class-settings-controller.php:143
+msgid "View WooCommerce documentation"
+msgstr ""
