@@ -132,6 +132,7 @@ use SeQura\WC\Core\Implementation\BusinessLogic\Domain\Integration\PromotionalWi
 use SeQura\WC\Core\Implementation\BusinessLogic\Domain\Integration\PromotionalWidgets\Widget_Configurator;
 use SeQura\WC\Repositories\Migrations\Migration_Install_400;
 use SeQura\WC\Repositories\Migrations\Migration_Install_420;
+use SeQura\WC\Repositories\Migrations\Migration_Install_430;
 use SeQura\WC\Services\Order\Current_Order_Provider;
 use SeQura\WC\Services\Order\Interface_Current_Order_Provider;
 use SeQura\WC\Services\Platform\Interface_Platform_Provider;
@@ -140,6 +141,7 @@ use SeQura\WC\Services\Widgets\Interface_Widgets_Service;
 use SeQura\WC\Services\Widgets\Widgets_Service;
 use SeQura\Core\BusinessLogic\Domain\Integration\Store\StoreIdProvider;
 use SeQura\Core\BusinessLogic\Domain\Integration\StoreIntegration\StoreIntegrationServiceInterface;
+use SeQura\Core\BusinessLogic\Domain\Stores\Services\StoreService;
 use SeQura\Core\Infrastructure\Configuration\ConfigurationManager;
 use SeQura\WC\Controllers\Rest\Store_Integration_REST_Controller;
 use SeQura\WC\Core\Extension\BusinessLogic\Domain\Integration\Store\Store_Id_Provider;
@@ -152,7 +154,6 @@ use SeQura\WC\Services\Order\Builder\Order_Customer_Builder;
 use SeQura\WC\Services\Order\Builder\Order_Delivery_Method_Builder;
 use SeQura\WC\Services\Service\Interface_Settings_Service;
 use SeQura\WC\Services\Service\Settings_Service;
-use SeQura\Core\BusinessLogic\DataAccess\StoreIntegration\Entities\StoreIntegration;
 use SeQura\Core\BusinessLogic\Domain\Integration\StoreInfo\StoreInfoServiceInterface;
 use SeQura\WC\Core\Implementation\BusinessLogic\Domain\Integration\StoreInfo\Store_Info_Service;
 use SeQura\Core\BusinessLogic\DataAccess\AdvancedSettings\Entities\AdvancedSettings;
@@ -619,6 +620,11 @@ class Bootstrap extends BootstrapComponent {
 								Reg::getService( AdvancedSettingsService::class ),
 								Reg::getService( Order_Status_Settings_Service::class )
 							),
+							new Migration_Install_430(
+								$wpdb,
+								$cache_repository,
+								Reg::getService( StoreService::class )
+							),
 						)
 					);
 				}
@@ -970,7 +976,6 @@ class Bootstrap extends BootstrapComponent {
 		RepositoryRegistry::registerRepository( PaymentMethod::class, Entity_Repository::class );
 		RepositoryRegistry::registerRepository( Credentials::class, Entity_Repository::class );
 		RepositoryRegistry::registerRepository( Deployment::class, Entity_Repository::class );
-		RepositoryRegistry::registerRepository( StoreIntegration::class, Entity_Repository::class );
 		RepositoryRegistry::registerRepository( AdvancedSettings::class, Entity_Repository::class );
 	}
 

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3d212c39140ff720a364e12bab252fb7
+class ComposerStaticInit1a79c4ba7bcd0f2d0c9954451c920cba
 {
     public static $prefixLengthsPsr4 = array (
         'S' =>
@@ -175,8 +175,6 @@ class ComposerStaticInit3d212c39140ff720a364e12bab252fb7
         'SeQura\\Core\\BusinessLogic\\DataAccess\\SendReport\\Repositories\\SendReportRepository' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/DataAccess/SendReport/Repositories/SendReportRepository.php',
         'SeQura\\Core\\BusinessLogic\\DataAccess\\StatisticalData\\Entities\\StatisticalData' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/DataAccess/StatisticalData/Entities/StatisticalData.php',
         'SeQura\\Core\\BusinessLogic\\DataAccess\\StatisticalData\\Repositories\\StatisticalDataRepository' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/DataAccess/StatisticalData/Repositories/StatisticalDataRepository.php',
-        'SeQura\\Core\\BusinessLogic\\DataAccess\\StoreIntegration\\Entities\\StoreIntegration' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/DataAccess/StoreIntegration/Entities/StoreIntegration.php',
-        'SeQura\\Core\\BusinessLogic\\DataAccess\\StoreIntegration\\Repositories\\StoreIntegrationRepository' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/DataAccess/StoreIntegration/Repositories/StoreIntegrationRepository.php',
         'SeQura\\Core\\BusinessLogic\\DataAccess\\TransactionLog\\Entities\\TransactionLog' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/DataAccess/TransactionLog/Entities/TransactionLog.php',
         'SeQura\\Core\\BusinessLogic\\DataAccess\\TransactionLog\\Repositories\\TransactionLogRepository' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/DataAccess/TransactionLog/Repositories/TransactionLogRepository.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\AdvancedSettings\\Models\\AdvancedSettings' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/AdvancedSettings/Models/AdvancedSettings.php',
@@ -351,9 +349,7 @@ class ComposerStaticInit3d212c39140ff720a364e12bab252fb7
         'SeQura\\Core\\BusinessLogic\\Domain\\StoreIntegration\\Models\\CreateStoreIntegrationResponse' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/StoreIntegration/Models/CreateStoreIntegrationResponse.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\StoreIntegration\\Models\\DeleteStoreIntegrationRequest' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/StoreIntegration/Models/DeleteStoreIntegrationRequest.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\StoreIntegration\\Models\\DeleteStoreIntegrationResponse' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/StoreIntegration/Models/DeleteStoreIntegrationResponse.php',
-        'SeQura\\Core\\BusinessLogic\\Domain\\StoreIntegration\\Models\\StoreIntegration' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/StoreIntegration/Models/StoreIntegration.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\StoreIntegration\\ProxyContracts\\StoreIntegrationsProxyInterface' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/StoreIntegration/ProxyContracts/StoreIntegrationsProxyInterface.php',
-        'SeQura\\Core\\BusinessLogic\\Domain\\StoreIntegration\\RepositoryContracts\\StoreIntegrationRepositoryInterface' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/StoreIntegration/RepositoryContracts/StoreIntegrationRepositoryInterface.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\StoreIntegration\\Services\\StoreIntegrationService' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/StoreIntegration/Services/StoreIntegrationService.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\Stores\\Exceptions\\EmptyStoreParameterException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Stores/Exceptions/EmptyStoreParameterException.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\Stores\\Exceptions\\FailedToRetrieveStoresException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Stores/Exceptions/FailedToRetrieveStoresException.php',
@@ -611,6 +607,7 @@ class ComposerStaticInit3d212c39140ff720a364e12bab252fb7
         'SeQura\\WC\\Repositories\\Migrations\\Migration_Install_320' => __DIR__ . '/../..' . '/src/Repositories/Migrations/class-migration-install-320.php',
         'SeQura\\WC\\Repositories\\Migrations\\Migration_Install_400' => __DIR__ . '/../..' . '/src/Repositories/Migrations/class-migration-install-400.php',
         'SeQura\\WC\\Repositories\\Migrations\\Migration_Install_420' => __DIR__ . '/../..' . '/src/Repositories/Migrations/class-migration-install-420.php',
+        'SeQura\\WC\\Repositories\\Migrations\\Migration_Install_430' => __DIR__ . '/../..' . '/src/Repositories/Migrations/class-migration-install-430.php',
         'SeQura\\WC\\Repositories\\Queue_Item_Repository' => __DIR__ . '/../..' . '/src/Repositories/class-queue-item-repository.php',
         'SeQura\\WC\\Repositories\\Repository' => __DIR__ . '/../..' . '/src/Repositories/class-repository.php',
         'SeQura\\WC\\Repositories\\SeQura_Order_Repository' => __DIR__ . '/../..' . '/src/Repositories/class-sequra-order-repository.php',
@@ -664,9 +661,9 @@ class ComposerStaticInit3d212c39140ff720a364e12bab252fb7
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3d212c39140ff720a364e12bab252fb7::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3d212c39140ff720a364e12bab252fb7::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3d212c39140ff720a364e12bab252fb7::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1a79c4ba7bcd0f2d0c9954451c920cba::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1a79c4ba7bcd0f2d0c9954451c920cba::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit1a79c4ba7bcd0f2d0c9954451c920cba::$classMap;
 
         }, null, ClassLoader::class);
     }
