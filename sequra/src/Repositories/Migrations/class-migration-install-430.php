@@ -9,7 +9,10 @@
 namespace SeQura\WC\Repositories\Migrations;
 
 use Exception;
+use SeQura\Core\BusinessLogic\Domain\Connection\RepositoryContracts\ConnectionDataRepositoryInterface;
+use SeQura\Core\BusinessLogic\Domain\Connection\RepositoryContracts\CredentialsRepositoryInterface;
 use SeQura\Core\BusinessLogic\Domain\Connection\Services\ConnectionService;
+use SeQura\Core\BusinessLogic\Domain\PaymentMethod\RepositoryContracts\PaymentMethodRepositoryInterface;
 use SeQura\Core\BusinessLogic\Domain\Multistore\StoreContext;
 use SeQura\Core\BusinessLogic\Domain\StoreIntegration\Models\DeleteStoreIntegrationRequest;
 use SeQura\Core\BusinessLogic\Domain\StoreIntegration\ProxyContracts\StoreIntegrationsProxyInterface;
@@ -17,6 +20,7 @@ use SeQura\Core\BusinessLogic\Domain\StoreIntegration\Services\StoreIntegrationS
 use SeQura\Core\BusinessLogic\Domain\Stores\Services\StoreService;
 use SeQura\Core\Infrastructure\ServiceRegister;
 use SeQura\WC\Repositories\Interface_Cache_Repository;
+use SeQura\WC\Services\Log\Interface_Logger_Service;
 use Throwable;
 
 /**
@@ -74,14 +78,11 @@ class Migration_Install_430 extends Migration {
 			return;
 		}
 
-		$has_failures = false;
-
 		foreach ( $store_ids as $store_id ) {
 			StoreContext::doWithStore(
 				$store_id,
-				function () use ( $store_id, &$has_failures ) {
+				function () use ( $store_id ) {
 					$old_webhook_url = $this->get_old_webhook_url( $store_id );
-					$store_failed    = false;
 
 					foreach ( $this->get_connection_service()->getAllConnectionData() as $connection_data ) {
 						if ( null !== $old_webhook_url ) {
@@ -91,20 +92,16 @@ class Migration_Install_430 extends Migration {
 						try {
 							$this->get_store_integration_service()->createStoreIntegration( $connection_data );
 						} catch ( Throwable $e ) {
-							$has_failures = true;
-							$store_failed = true;
+							$this->try_log( $e );
+							if ( 401 === $e->getCode() ) {
+								$this->remove_stale_deployment_data( $connection_data );
+							}
 						}
 					}
 
-					if ( ! $store_failed ) {
-						$this->delete_old_store_integration_entity( $store_id );
-					}
+					$this->delete_old_store_integration_entity( $store_id );
 				}
 			);
-		}
-
-		if ( $has_failures ) {
-			throw new Exception( 'One or more store integration registrations failed. Migration will retry on next plugin execution.' );
 		}
 	}
 
@@ -120,8 +117,9 @@ class Migration_Install_430 extends Migration {
 			$this->get_store_integrations_proxy()->deleteStoreIntegration(
 				new DeleteStoreIntegrationRequest( $connection_data, $old_webhook_url )
 			);
-		} catch ( Throwable $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+		} catch ( Throwable $e ) {
 			// Best-effort: old integration may already be gone on the seQura side.
+			$this->try_log( $e );
 		}
 	}
 
@@ -197,6 +195,64 @@ class Migration_Install_430 extends Migration {
 	}
 
 	/**
+	 * Remove the connection data, credentials and payment methods from the database for a given deployment.
+	 *
+	 * @param \SeQura\Core\BusinessLogic\Domain\Connection\Models\ConnectionData $connection_data
+	 */
+	private function remove_stale_deployment_data( $connection_data ): void {
+		try {
+			$deployment_id = $connection_data->getDeployment();
+			$merchant_ids  = $this->get_credentials_repository()->deleteCredentialsByDeploymentId( $deployment_id );
+			foreach ( $merchant_ids as $merchant_id ) {
+				$this->get_payment_method_repository()->deletePaymentMethods( $merchant_id );
+			}
+				
+			$this->get_connection_data_repository()->deleteConnectionDataByDeploymentId( $deployment_id );
+		} catch ( Throwable $e ) {
+			$this->try_log( $e );
+		}
+	}
+
+	/**
+	 * Get connection data repository instance.
+	 */
+	private function get_connection_data_repository(): ConnectionDataRepositoryInterface {
+		/**
+		 * Connection data repository.
+		 *
+		 * @var ConnectionDataRepositoryInterface $repository
+		 */
+		$repository = ServiceRegister::getService( ConnectionDataRepositoryInterface::class );
+		return $repository;
+	}
+
+	/**
+	 * Get credentials repository instance.
+	 */
+	private function get_credentials_repository(): CredentialsRepositoryInterface {
+		/**
+		 * Credentials repository.
+		 *
+		 * @var CredentialsRepositoryInterface $repository
+		 */
+		$repository = ServiceRegister::getService( CredentialsRepositoryInterface::class );
+		return $repository;
+	}
+
+	/**
+	 * Get payment method repository instance.
+	 */
+	private function get_payment_method_repository(): PaymentMethodRepositoryInterface {
+		/**
+		 * Payment method repository.
+		 *
+		 * @var PaymentMethodRepositoryInterface $repository
+		 */
+		$repository = ServiceRegister::getService( PaymentMethodRepositoryInterface::class );
+		return $repository;
+	}
+
+	/**
 	 * Get store integrations proxy instance.
 	 */
 	private function get_store_integrations_proxy(): StoreIntegrationsProxyInterface {
@@ -207,5 +263,41 @@ class Migration_Install_430 extends Migration {
 		 */
 		$proxy = ServiceRegister::getService( StoreIntegrationsProxyInterface::class );
 		return $proxy;
+	}
+
+	/**
+	 * Best-effort logging via the logger service.
+	 * The logger service depends on DB configuration that may not be
+	 * available during migrations, so failures are silently ignored.
+	 *
+	 * @param Throwable $throwable The exception to log.
+	 */
+	private function try_log( Throwable $throwable ): void {
+		try {
+			/**
+			 * Logger service.
+			 *
+			 * @var Interface_Logger_Service $logger
+			 */
+			$logger = ServiceRegister::getService( Interface_Logger_Service::class );
+			$logger->log_throwable( $throwable, __FUNCTION__, __CLASS__ );
+		} catch ( Throwable $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// Logger not available or failed — fallback to error_log if WP_DEBUG is enabled.
+			if ( \defined( 'WP_DEBUG' ) && WP_DEBUG && ( ! \defined( 'WP_DEBUG_LOG' ) || ! empty( WP_DEBUG_LOG ) ) ) {
+				// phpcs:disable WordPress.PHP.DevelopmentFunctions.error_log_error_log, WordPress.PHP.DevelopmentFunctions.error_log_print_r
+				error_log(
+					print_r(
+						array(
+							'error' => $e->getMessage(),
+							'file'  => $e->getFile(),
+							'line'  => $e->getLine(),
+							'trace' => $e->getTraceAsString(),
+						),
+						true
+					) 
+				);
+				// phpcs:enable WordPress.PHP.DevelopmentFunctions.error_log_error_log, WordPress.PHP.DevelopmentFunctions.error_log_print_r
+			}
+		}
 	}
 }
