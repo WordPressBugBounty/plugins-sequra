@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "sequra/integration-core",
-            "version": "v5.0.0",
-            "version_normalized": "5.0.0.0",
+            "version": "v5.1.2",
+            "version_normalized": "5.1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "d173aa2642541dee5f1de3d99878363f6cb91438"
+                "reference": "9f271088c8cc79db9f01c5517577f53731b48d31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/d173aa2642541dee5f1de3d99878363f6cb91438",
-                "reference": "d173aa2642541dee5f1de3d99878363f6cb91438",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/9f271088c8cc79db9f01c5517577f53731b48d31",
+                "reference": "9f271088c8cc79db9f01c5517577f53731b48d31",
                 "shasum": ""
             },
             "require": {
@@ -22,11 +22,12 @@
                 "php": ">=7.2"
             },
             "require-dev": {
-                "phpcompatibility/php-compatibility": "*",
+                "phpcompatibility/php-compatibility": "^9.3",
                 "phpstan/phpstan": "^1.12 || ^2.1",
-                "phpunit/phpunit": "8.5.14"
+                "phpunit/phpunit": "8.5.14",
+                "slevomat/coding-standard": "^7.0"
             },
-            "time": "2026-04-28T09:32:58+00:00",
+            "time": "2026-05-18T17:20:22+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -42,7 +43,7 @@
             "description": "Core SeQura integration library",
             "support": {
                 "issues": "https://github.com/sequra/integration-core/issues",
-                "source": "https://github.com/sequra/integration-core/tree/v5.0.0"
+                "source": "https://github.com/sequra/integration-core/tree/v5.1.2"
             },
             "install-path": "../sequra/integration-core"
         }
