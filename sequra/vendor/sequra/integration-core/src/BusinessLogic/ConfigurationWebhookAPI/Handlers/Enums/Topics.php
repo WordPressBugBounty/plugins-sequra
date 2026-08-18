@@ -48,6 +48,14 @@ interface Topics
     /**
      * @var string
      */
+    public const GET_BANNER_SETTINGS = 'get-banner-settings';
+    /**
+     * @var string
+     */
+    public const SAVE_BANNER_SETTINGS = 'save-banner-settings';
+    /**
+     * @var string
+     */
     public const GET_LOG_CONTENT = 'get-log-content';
     /**
      * @var string
@@ -70,6 +78,22 @@ interface Topics
      */
     public const GET_STORE_INFO = 'get-store-info';
     /**
+     * @var string
+     */
+    public const GET_EXPRESS_CHECKOUT_SETTINGS = 'get-express-checkout-settings';
+    /**
+     * @var string
+     */
+    public const SAVE_EXPRESS_CHECKOUT_SETTINGS = 'save-express-checkout-settings';
+    /**
+     * @var string
+     */
+    public const GET_AFFILIATE_SETTINGS = 'get-affiliate-settings';
+    /**
+     * @var string
+     */
+    public const SAVE_AFFILIATE_SETTINGS = 'save-affiliate-settings';
+    /**
      * @var string[]
      */
     public const ALL_TOPICS = [
@@ -82,11 +106,17 @@ interface Topics
         self::SAVE_ORDER_STATUS_SETTINGS,
         self::GET_ADVANCED_SETTINGS,
         self::SAVE_ADVANCED_SETTINGS,
+        self::GET_BANNER_SETTINGS,
+        self::SAVE_BANNER_SETTINGS,
         self::GET_LOG_CONTENT,
         self::REMOVE_LOG_CONTENT,
         self::GET_SHOP_CATEGORIES,
         self::GET_SHOP_PRODUCTS,
         self::GET_SELLING_COUNTRIES,
-        self::GET_STORE_INFO
+        self::GET_STORE_INFO,
+        self::GET_EXPRESS_CHECKOUT_SETTINGS,
+        self::SAVE_EXPRESS_CHECKOUT_SETTINGS,
+        self::GET_AFFILIATE_SETTINGS,
+        self::SAVE_AFFILIATE_SETTINGS
     ];
 }

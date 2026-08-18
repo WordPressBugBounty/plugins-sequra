@@ -22,6 +22,11 @@ class Capability
     private const WIDGET = 'widget';
 
     /**
+     * Banner capability string constant.
+     */
+    private const BANNER = 'banner';
+
+    /**
      * Order status capability string constant.
      */
     private const ORDER_STATUS = 'order-status';
@@ -50,6 +55,11 @@ class Capability
      * Alt product price capability string constant.
      */
     private const ALT_PRODUCT_PRICE = 'alt-product-price';
+
+    /**
+     * Express checkout capability string constant.
+     */
+    private const EXPRESS_CHECKOUT = 'express-checkout';
 
     /**
      * @var string
@@ -82,6 +92,16 @@ class Capability
     public static function widget(): self
     {
         return new self(self::WIDGET);
+    }
+
+    /**
+     * Called for banner capability.
+     *
+     * @return Capability
+     */
+    public static function banner(): self
+    {
+        return new self(self::BANNER);
     }
 
     /**
@@ -145,6 +165,16 @@ class Capability
     }
 
     /**
+     * Called for Express checkout capability.
+     *
+     * @return Capability
+     */
+    public static function expressCheckout(): self
+    {
+        return new self(self::EXPRESS_CHECKOUT);
+    }
+
+    /**
      * @return string
      */
     public function getCapability(): string
@@ -171,6 +201,10 @@ class Capability
             return self::widget();
         }
 
+        if ($capability === self::BANNER) {
+            return self::banner();
+        }
+
         if ($capability === self::ORDER_STATUS) {
             return self::orderStatus();
         }
@@ -193,6 +227,10 @@ class Capability
 
         if ($capability === self::ALT_PRODUCT_PRICE) {
             return self::altProductPrice();
+        }
+
+        if ($capability === self::EXPRESS_CHECKOUT) {
+            return self::expressCheckout();
         }
 
         throw new InvalidCapabilityException();

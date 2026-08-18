@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "sequra/integration-core",
-            "version": "v5.1.2",
-            "version_normalized": "5.1.2.0",
+            "version": "v5.6.0",
+            "version_normalized": "5.6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "9f271088c8cc79db9f01c5517577f53731b48d31"
+                "reference": "396c9fb7fab98b4ef95308d17f940ff2ab9f7007"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/9f271088c8cc79db9f01c5517577f53731b48d31",
-                "reference": "9f271088c8cc79db9f01c5517577f53731b48d31",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/396c9fb7fab98b4ef95308d17f940ff2ab9f7007",
+                "reference": "396c9fb7fab98b4ef95308d17f940ff2ab9f7007",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "phpunit/phpunit": "8.5.14",
                 "slevomat/coding-standard": "^7.0"
             },
-            "time": "2026-05-18T17:20:22+00:00",
+            "time": "2026-07-16T08:08:02+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -43,7 +43,7 @@
             "description": "Core SeQura integration library",
             "support": {
                 "issues": "https://github.com/sequra/integration-core/issues",
-                "source": "https://github.com/sequra/integration-core/tree/v5.1.2"
+                "source": "https://github.com/sequra/integration-core/tree/v5.6.0"
             },
             "install-path": "../sequra/integration-core"
         }

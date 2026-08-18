@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'sequra/integration-core' => array(
-            'pretty_version' => 'v5.1.2',
-            'version' => '5.1.2.0',
-            'reference' => '9f271088c8cc79db9f01c5517577f53731b48d31',
+            'pretty_version' => 'v5.6.0',
+            'version' => '5.6.0.0',
+            'reference' => '396c9fb7fab98b4ef95308d17f940ff2ab9f7007',
             'type' => 'library',
             'install_path' => __DIR__ . '/../sequra/integration-core',
             'aliases' => array(),

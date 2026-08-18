@@ -18,6 +18,7 @@ class AuthorizedProxy extends BaseProxy
     public const AUTHORIZATION_HEADER_VALUE_PREFIX = 'Authorization: Basic ';
 
     public const MERCHANT_ID_HEADER_KEY = 'Sequra-Merchant-Id';
+    public const MERCHANT_ID_HEADER_VALUE_PREFIX = 'Sequra-Merchant-Id: ';
 
     /**
      * @var ConnectionData $connectionData
@@ -53,12 +54,7 @@ class AuthorizedProxy extends BaseProxy
         $this->deployment = $deployment;
         $this->merchantId = $merchantId;
 
-        parent::__construct(
-            $client,
-            $connectionData->getEnvironment() === self::LIVE_MODE ?
-                $deployment->getLiveDeploymentURL()->getApiBaseUrl() :
-                (self::getSandboxApiBaseUrlOverride() ?: $deployment->getSandboxDeploymentURL()->getApiBaseUrl())
-        );
+        parent::__construct($client, self::resolveApiBaseUrl($connectionData, $deployment));
     }
 
     /**
@@ -78,7 +74,7 @@ class AuthorizedProxy extends BaseProxy
             parent::getHeaders(),
             [
                 self::AUTHORIZATION_HEADER_KEY => self::AUTHORIZATION_HEADER_VALUE_PREFIX . $token,
-                self::MERCHANT_ID_HEADER_KEY => $this->merchantId,
+                self::MERCHANT_ID_HEADER_KEY => self::MERCHANT_ID_HEADER_VALUE_PREFIX . $this->merchantId,
             ]
         );
     }

@@ -108,7 +108,10 @@ class Sequra_Payment_Gateway_Block_Support extends AbstractPaymentMethodType {
 		$asset        = require $asset_path; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
 		$version      = isset( $asset['version'] ) ? $asset['version'] : $this->version;
 		$dependencies = isset( $asset['dependencies'] ) ? $asset['dependencies'] : $dependencies;
-	
+
+		// The script reads these off the wc global, so webpack cannot infer them from the bundle.
+		$dependencies = array_merge( $dependencies, array( 'wc-blocks-registry', 'wc-settings' ) );
+
 		\wp_register_script( 
 			self::SCRIPT_HANDLER, 
 			$asset_url, 
@@ -205,7 +208,12 @@ class Sequra_Payment_Gateway_Block_Support extends AbstractPaymentMethodType {
 	private function update_customer_data( $value, string $method ): void {
 		$customer = WC()->customer;
 		if ( method_exists( $customer, $method ) ) {
-			$customer->$method( $value );
+			try {
+				$customer->$method( $value );
+			} catch ( \WC_Data_Exception $e ) {
+				// Ignore values WooCommerce rejects, e.g. an incomplete email while the shopper is still typing.
+				return;
+			}
 		}
 	}
 
