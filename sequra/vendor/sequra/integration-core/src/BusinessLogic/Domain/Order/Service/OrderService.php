@@ -6,16 +6,20 @@ use Exception;
 use InvalidArgumentException;
 use SeQura\Core\BusinessLogic\Domain\Connection\Exceptions\ConnectionDataNotFoundException;
 use SeQura\Core\BusinessLogic\Domain\Connection\Exceptions\CredentialsNotFoundException;
+use SeQura\Core\BusinessLogic\Domain\Deployments\Exceptions\DeploymentNotFoundException;
 use SeQura\Core\BusinessLogic\Domain\Integration\Order\OrderCreationInterface;
 use SeQura\Core\BusinessLogic\Domain\Order\Builders\CreateOrderRequestBuilder;
 use SeQura\Core\BusinessLogic\Domain\Order\Builders\MerchantOrderRequestBuilder;
+use SeQura\Core\BusinessLogic\Domain\Order\Exceptions\InvalidCartItemsException;
 use SeQura\Core\BusinessLogic\Domain\Order\Exceptions\InvalidOrderStateException;
 use SeQura\Core\BusinessLogic\Domain\Order\Exceptions\InvalidUrlException;
+use SeQura\Core\BusinessLogic\Domain\Order\Exceptions\OrderMerchantNotFoundException;
 use SeQura\Core\BusinessLogic\Domain\Order\Exceptions\OrderNotFoundException;
 use SeQura\Core\BusinessLogic\Domain\Order\Models\GetAvailablePaymentMethodsRequest;
 use SeQura\Core\BusinessLogic\Domain\Order\Models\GetFormRequest;
 use SeQura\Core\BusinessLogic\Domain\Order\Models\OrderRequest\CreateOrderRequest;
 use SeQura\Core\BusinessLogic\Domain\Order\Models\OrderRequest\MerchantReference;
+use SeQura\Core\BusinessLogic\Domain\Order\Models\OrderRequest\OrderRequestDTO;
 use SeQura\Core\BusinessLogic\Domain\Order\Models\OrderRequest\OrderRequestStates;
 use SeQura\Core\BusinessLogic\Domain\Order\Models\OrderRequest\UpdateOrderRequest;
 use SeQura\Core\BusinessLogic\Domain\Order\Models\OrderUpdateData;
@@ -120,6 +124,7 @@ class OrderService
      * @throws ConnectionDataNotFoundException
      * @throws CredentialsNotFoundException
      * @throws InvalidUrlException
+     * @throws InvalidCartItemsException
      */
     public function solicitFor(CreateOrderRequestBuilder $builder): SeQuraOrder
     {
@@ -133,8 +138,8 @@ class OrderService
         }
 
         $existingOrder = $this->getExistingOrderFor($createOrderRequest);
-        if ($existingOrder) {
-            $this->orderRepository->deleteOrder($existingOrder);
+        if ($existingOrder && $this->isReusableFor($existingOrder, $createOrderRequest)) {
+            return $existingOrder;
         }
 
         $order = $this->proxy->createOrder($createOrderRequest);
@@ -151,13 +156,14 @@ class OrderService
      * @return SeQuraPaymentMethod[]
      *
      * @throws HttpRequestException
+     * @throws OrderMerchantNotFoundException
      */
     public function getAvailablePaymentMethods(SeQuraOrder $order): array
     {
         return $this->proxy->getAvailablePaymentMethods(
             new GetAvailablePaymentMethodsRequest(
                 $order->getReference(),
-                $order->getMerchant()->getId()
+                $this->getOrderMerchantId($order)
             )
         );
     }
@@ -165,15 +171,28 @@ class OrderService
     /**
      * Gets available payment methods for solicited order in categories.
      *
+     * The merchant stays an argument for callers that hold it, which keeps the order out of the lookup: an order
+     * solicited but not persisted by the integration is answered for as it always was. Omitting it reads the
+     * merchant off the stored order instead, and then requires the order to be there.
+     *
      * @param string $orderRef
-     * @param string $merchantId
+     * @param string|null $merchantId Merchant the order was solicited for. Read from the stored order when omitted.
      *
      * @return SeQuraPaymentMethodCategory[]
      *
      * @throws HttpRequestException
+     * @throws OrderNotFoundException
+     * @throws OrderMerchantNotFoundException
+     * @throws ConnectionDataNotFoundException
+     * @throws CredentialsNotFoundException
+     * @throws DeploymentNotFoundException
      */
-    public function getAvailablePaymentMethodsInCategories(string $orderRef, string $merchantId): array
+    public function getAvailablePaymentMethodsInCategories(string $orderRef, ?string $merchantId = null): array
     {
+        if ($merchantId === null) {
+            $merchantId = $this->getOrderMerchantId($this->getSeQuraOrder($orderRef));
+        }
+
         return $this->proxy->getAvailablePaymentMethodsInCategories(
             new GetAvailablePaymentMethodsRequest($orderRef, $merchantId)
         );
@@ -320,7 +339,7 @@ class OrderService
             $this->getOrderPaymentMethodInfo(
                 $updatedSeQuraOrder->getReference(),
                 $webhook->getProductCode(),
-                (string)$updatedSeQuraOrder->getMerchant()->getId()
+                $this->getOrderMerchantId($updatedSeQuraOrder)
             )
         );
 
@@ -412,6 +431,55 @@ class OrderService
     }
 
     /**
+     * @param SeQuraOrder $order
+     * @param CreateOrderRequest $request
+     *
+     * @return bool
+     *
+     * @throws InvalidCartItemsException
+     */
+    protected function isReusableFor(SeQuraOrder $order, CreateOrderRequest $request): bool
+    {
+        return !\in_array($order->getState(), OrderRequestStates::SETTLED_STATES, true)
+            && json_encode($this->getComparablePayload($order))
+            === json_encode($this->getComparablePayload($request->toSequraOrderInstance($order->getReference())));
+    }
+
+    /**
+     * @param SeQuraOrder $order
+     *
+     * @return array<string, mixed>
+     */
+    private function getComparablePayload(SeQuraOrder $order): array
+    {
+        $cart = $this->asStored($order->getUnshippedCart());
+        $customer = $this->asStored($order->getCustomer());
+        unset($cart['updated_at'], $customer['updated_at'], $customer['ip_number'], $customer['user_agent']);
+
+        return [
+            'merchant' => $this->asStored($order->getMerchant()),
+            'merchant_reference' => array_filter($order->toArray()['merchant_reference']),
+            'cart' => $cart,
+            'delivery_method' => $this->asStored($order->getDeliveryMethod()),
+            'delivery_address' => $this->asStored($order->getDeliveryAddress()),
+            'invoice_address' => $this->asStored($order->getInvoiceAddress()),
+            'customer' => $customer,
+        ];
+    }
+
+    /**
+     * The data as it reads back from storage, which fills in defaults for the values a request leaves unset.
+     *
+     * @param OrderRequestDTO $data
+     *
+     * @return array<string, mixed>
+     */
+    private function asStored(OrderRequestDTO $data): array
+    {
+        return $data::fromArray($data->toArray())->toArray();
+    }
+
+    /**
      * Creates an instance of UpdateOrderRequest.
      *
      * @param SeQuraOrder $order
@@ -473,6 +541,31 @@ class OrderService
     }
 
     /**
+     * Returns the merchant the order was solicited for, in the form the proxy request expects.
+     *
+     * The id is untyped on the merchant, so an order whose merchant record lost it would otherwise reach the
+     * proxy as an empty string and fail in the credentials lookup, with nothing pointing back at the order.
+     *
+     * @param SeQuraOrder $order
+     *
+     * @return string
+     *
+     * @throws OrderMerchantNotFoundException
+     */
+    private function getOrderMerchantId(SeQuraOrder $order): string
+    {
+        $merchantId = (string)$order->getMerchant()->getId();
+
+        if ($merchantId === '') {
+            throw new OrderMerchantNotFoundException(
+                "SeQura order with reference {$order->getReference()} carries no merchant id."
+            );
+        }
+
+        return $merchantId;
+    }
+
+    /**
      * Returns PaymentMethod information for SeQura order.
      *
      * @param string $orderReference
@@ -482,6 +575,9 @@ class OrderService
      * @return PaymentMethod|null
      *
      * @throws HttpRequestException
+     * @throws ConnectionDataNotFoundException
+     * @throws CredentialsNotFoundException
+     * @throws DeploymentNotFoundException
      */
     private function getOrderPaymentMethodInfo(
         string $orderReference,

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit445a50bd202177a901ada74547bad5df
+class ComposerStaticInitbed2516e5ac7e58dd271acd239b3dba0
 {
     public static $prefixLengthsPsr4 = array (
         'S' =>
@@ -116,8 +116,12 @@ class ComposerStaticInit445a50bd202177a901ada74547bad5df
         'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\ExpressCheckout\\Responses\\ExpressCheckoutUnavailableResponse' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/ExpressCheckout/Responses/ExpressCheckoutUnavailableResponse.php',
         'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\ExpressCheckout\\Responses\\GuestExpressCheckoutAvailabilityResponse' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/ExpressCheckout/Responses/GuestExpressCheckoutAvailabilityResponse.php',
         'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\PaymentMethods\\CachedPaymentMethodsController' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/PaymentMethods/CachedPaymentMethodsController.php',
+        'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\PaymentMethods\\PaymentMethodsCheckoutController' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/PaymentMethods/PaymentMethodsCheckoutController.php',
         'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\PaymentMethods\\Requests\\GetCachedPaymentMethodsRequest' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/PaymentMethods/Requests/GetCachedPaymentMethodsRequest.php',
+        'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\PaymentMethods\\Requests\\PaymentMethodsInCategoriesRequest' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/PaymentMethods/Requests/PaymentMethodsInCategoriesRequest.php',
         'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\PaymentMethods\\Responses\\CachedPaymentMethodsResponse' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/PaymentMethods/Responses/CachedPaymentMethodsResponse.php',
+        'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\PaymentMethods\\Responses\\PaymentMethodResponseTrait' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/PaymentMethods/Responses/PaymentMethodResponseTrait.php',
+        'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\PaymentMethods\\Responses\\PaymentMethodsInCategoriesResponse' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/PaymentMethods/Responses/PaymentMethodsInCategoriesResponse.php',
         'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\PromotionalWidgets\\PromotionalWidgetsCheckoutController' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/PromotionalWidgets/PromotionalWidgetsCheckoutController.php',
         'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\PromotionalWidgets\\Requests\\PromotionalWidgetsCheckoutRequest' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/PromotionalWidgets/Requests/PromotionalWidgetsCheckoutRequest.php',
         'SeQura\\Core\\BusinessLogic\\CheckoutAPI\\PromotionalWidgets\\Responses\\GetWidgetsCheckoutResponse' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/CheckoutAPI/PromotionalWidgets/Responses/GetWidgetsCheckoutResponse.php',
@@ -274,6 +278,7 @@ class ComposerStaticInit445a50bd202177a901ada74547bad5df
         'SeQura\\Core\\BusinessLogic\\Domain\\Deployments\\Services\\DeploymentsService' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Deployments/Services/DeploymentsService.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\Disconnect\\Services\\DisconnectService' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Disconnect/Services/DisconnectService.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\ExpressCheckout\\Exceptions\\DuplicatedExpressCheckoutPageException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/ExpressCheckout/Exceptions/DuplicatedExpressCheckoutPageException.php',
+        'SeQura\\Core\\BusinessLogic\\Domain\\ExpressCheckout\\Exceptions\\InvalidExpressCheckoutButtonStyleException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/ExpressCheckout/Exceptions/InvalidExpressCheckoutButtonStyleException.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\ExpressCheckout\\Exceptions\\InvalidExpressCheckoutPageConfigException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/ExpressCheckout/Exceptions/InvalidExpressCheckoutPageConfigException.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\ExpressCheckout\\Exceptions\\InvalidExpressCheckoutPageException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/ExpressCheckout/Exceptions/InvalidExpressCheckoutPageException.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\ExpressCheckout\\Models\\ExpressCheckoutPage' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/ExpressCheckout/Models/ExpressCheckoutPage.php',
@@ -347,7 +352,10 @@ class ComposerStaticInit445a50bd202177a901ada74547bad5df
         'SeQura\\Core\\BusinessLogic\\Domain\\Order\\Exceptions\\InvalidServiceEndTimeException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Order/Exceptions/InvalidServiceEndTimeException.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\Order\\Exceptions\\InvalidTimestampException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Order/Exceptions/InvalidTimestampException.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\Order\\Exceptions\\InvalidUrlException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Order/Exceptions/InvalidUrlException.php',
+        'SeQura\\Core\\BusinessLogic\\Domain\\Order\\Exceptions\\OrderMerchantNotFoundException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Order/Exceptions/OrderMerchantNotFoundException.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\Order\\Exceptions\\OrderNotFoundException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Order/Exceptions/OrderNotFoundException.php',
+        'SeQura\\Core\\BusinessLogic\\Domain\\Order\\Exceptions\\TranslatableOrderMerchantNotFoundException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Order/Exceptions/TranslatableOrderMerchantNotFoundException.php',
+        'SeQura\\Core\\BusinessLogic\\Domain\\Order\\Exceptions\\TranslatableOrderNotFoundException' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Order/Exceptions/TranslatableOrderNotFoundException.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\Order\\Models\\GetAvailablePaymentMethodsRequest' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Order/Models/GetAvailablePaymentMethodsRequest.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\Order\\Models\\GetFormRequest' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Order/Models/GetFormRequest.php',
         'SeQura\\Core\\BusinessLogic\\Domain\\Order\\Models\\OrderRequest\\Address' => __DIR__ . '/..' . '/sequra/integration-core/src/BusinessLogic/Domain/Order/Models/OrderRequest/Address.php',
@@ -740,9 +748,9 @@ class ComposerStaticInit445a50bd202177a901ada74547bad5df
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit445a50bd202177a901ada74547bad5df::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit445a50bd202177a901ada74547bad5df::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit445a50bd202177a901ada74547bad5df::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitbed2516e5ac7e58dd271acd239b3dba0::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitbed2516e5ac7e58dd271acd239b3dba0::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitbed2516e5ac7e58dd271acd239b3dba0::$classMap;
 
         }, null, ClassLoader::class);
     }
